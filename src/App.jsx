@@ -468,25 +468,25 @@ function App() {
             </a>
             <a className="service-directory-card" href="#product-design">
               <span className="directory-number">02 / DESIGN</span>
-              <strong>Product design</strong>
+              <strong className="service-title-product">Product design</strong>
               <span className="directory-note">UX · UI · Figma case studies</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#graphic-design">
               <span className="directory-number">03 / VISUALS</span>
-              <strong>Graphic design</strong>
+              <strong className="service-title-graphic">Graphic design</strong>
               <span className="directory-note">Branding · Campaigns · Print</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#frontend-development">
               <span className="directory-number">04 / DEVELOPMENT</span>
-              <strong>Front-end development</strong>
+              <strong className="service-title-development">Front-end development</strong>
               <span className="directory-note">GitHub · Websites · Web apps</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#video-graphics">
               <span className="directory-number">05 / VIDEO</span>
-              <strong>Video &amp; motion graphics</strong>
+              <strong className="service-title-video">Video &amp; motion graphics</strong>
               <span className="directory-note">Video portfolio · Drive</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>

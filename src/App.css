@@ -458,6 +458,26 @@ button { font: inherit; }
   letter-spacing: 0.08em;
 }
 .service-directory-card strong { margin-top: 16px; color: #edf0e9; font-family: 'Manrope', sans-serif; font-size: 1.18rem; letter-spacing: -0.04em; }
+.service-title-product { animation: service-title-rise 700ms cubic-bezier(.2,.75,.25,1) both; }
+.service-title-graphic { animation: service-title-slide 800ms cubic-bezier(.2,.75,.25,1) both; }
+.service-title-development { animation: service-title-reveal 900ms ease-out both; }
+.service-title-video { animation: service-title-pop 750ms cubic-bezier(.2,1.4,.4,1) both; }
+@keyframes service-title-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes service-title-slide {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes service-title-reveal {
+  from { opacity: 0; clip-path: inset(0 100% 0 0); }
+  to { opacity: 1; clip-path: inset(0); }
+}
+@keyframes service-title-pop {
+  from { opacity: 0; transform: scale(.75) rotate(-4deg); }
+  to { opacity: 1; transform: scale(1) rotate(0); }
+}
 .directory-note { margin-top: 7px; color: #979e94; font-size: 0.7rem; }
 .directory-eye {
   position: absolute;
@@ -472,11 +492,34 @@ button { font: inherit; }
   color: #d92f36;
   pointer-events: none;
 }
-.directory-eye svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.directory-eye svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform-origin: center;
+  animation: eye-blink 4s ease-in-out infinite;
+}
+.service-directory-card:nth-child(2) .directory-eye svg { animation-delay: 350ms; }
+.service-directory-card:nth-child(3) .directory-eye svg { animation-delay: 700ms; }
+.service-directory-card:nth-child(4) .directory-eye svg { animation-delay: 1.05s; }
+.service-directory-card:nth-child(5) .directory-eye svg { animation-delay: 1.4s; }
+@keyframes eye-blink {
+  0%, 43%, 47%, 100% { transform: scaleY(1); }
+  45% { transform: scaleY(.08); }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .button-book-call { animation: none; }
   .typewriter-text::after { animation: none; }
+  .service-title-product,
+  .service-title-graphic,
+  .service-title-development,
+  .service-title-video,
+  .directory-eye svg { animation: none; }
 }
 
 .portfolio-detail { padding-top: 100px; padding-bottom: 105px; border-top: 1px solid #ffffff13; scroll-margin-top: 24px; }
