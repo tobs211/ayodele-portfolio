@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css';
 
 const heroIntro = 'Hi, I’m Ayodele Oluwatobiloba — a digital marketer and developer who loves the details.';
@@ -172,6 +172,63 @@ function EyeIcon() {
   );
 }
 
+function TypewriterText({ text }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const [typedText, setTypedText] = useState('');
+  const textRef = useRef(null);
+
+  useEffect(() => {
+    const target = textRef.current;
+    if (!target) return undefined;
+
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      || !('IntersectionObserver' in window)
+    ) {
+      setIsVisible(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        observer.disconnect();
+      }
+    }, { threshold: 0.5 });
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return undefined;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTypedText(text);
+      return undefined;
+    }
+
+    const characters = Array.from(text);
+    let index = 0;
+    const typingTimer = window.setInterval(() => {
+      index += 1;
+      setTypedText(characters.slice(0, index).join(''));
+
+      if (index >= characters.length) {
+        window.clearInterval(typingTimer);
+      }
+    }, 24);
+
+    return () => window.clearInterval(typingTimer);
+  }, [isVisible, text]);
+
+  return (
+    <span ref={textRef} className="typewriter-text" role="text" aria-label={text}>
+      <span aria-hidden="true">{typedText}</span>
+    </span>
+  );
+}
+
 function LinkedInIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -184,7 +241,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [editorCode, setEditorCode] = useState(starterCode);
-  const [typedIntro, setTypedIntro] = useState('');
   const bookingDetails = 'Choose a date and time that works for you. Add a Google Meet video conference before saving to send the invitation.';
   const calendarBookingUrl = `https://calendar.google.com/calendar/render?${new URLSearchParams({
     action: 'TEMPLATE',
@@ -192,25 +248,6 @@ function App() {
     details: bookingDetails,
     add: profile.email,
   })}`;
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setTypedIntro(heroIntro);
-      return undefined;
-    }
-
-    const characters = Array.from(heroIntro);
-    let index = 0;
-    const typingTimer = window.setInterval(() => {
-      index += 1;
-      setTypedIntro(characters.slice(0, index).join(''));
-
-      if (index >= characters.length) {
-        window.clearInterval(typingTimer);
-      }
-    }, 24);
-
-    return () => window.clearInterval(typingTimer);
-  }, []);
   const closeMenu = () => setMenuOpen(false);
   const editorLineCount = editorCode.split('\n').length;
   const toggleTheme = () => {
@@ -270,8 +307,8 @@ function App() {
         <section className="hero">
           <div className="hero-copy">
             <p className="availability"><span /> Available for new opportunities</p>
-            <p className="hero-kicker" aria-label={heroIntro}>
-              <span className="hero-kicker-typed" aria-hidden="true">{typedIntro}</span>
+            <p className="hero-kicker">
+              <TypewriterText text={heroIntro} />
             </p>
             <h1>I build for<br />the <span>real world.</span></h1>
             <p className="hero-description">
@@ -286,7 +323,7 @@ function App() {
               <a className="button button-primary" href="#work">
                 Explore my work <ArrowIcon />
               </a>
-              <a className="button button-red" href={calendarBookingUrl} target="_blank" rel="noreferrer">
+              <a className="button button-red button-book-call" href={calendarBookingUrl} target="_blank" rel="noreferrer">
                 Book a call
               </a>
             </div>
@@ -425,7 +462,7 @@ function App() {
           <div className="service-directory">
             <a className="service-directory-card" href="#digital-marketing">
               <span className="directory-number">01 / MARKETING</span>
-              <strong>Full-stack digital marketing</strong>
+              <strong><TypewriterText text="Full-stack digital marketing" /></strong>
               <span className="directory-note">Influencer · Social media · Email</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
