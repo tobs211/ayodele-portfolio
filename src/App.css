@@ -4,6 +4,7 @@
   font-family: 'DM Sans', sans-serif;
   --background: #0d0f10;
   --foreground: #e8e9e6;
+  --theme-toggle-color: #fff;
   --accent: #fff;
   --accent-contrast: #111;
   color: var(--foreground);
@@ -26,6 +27,7 @@ button { font: inherit; }
 :root[data-theme='light'] {
   --background: #fff;
   --foreground: #111;
+  --theme-toggle-color: #000;
   --accent: #111;
   --accent-contrast: #fff;
   color-scheme: light;
@@ -39,16 +41,19 @@ button { font: inherit; }
 .site-header {
   position: relative;
   z-index: 5;
-  display: flex;
+  display: grid;
   min-height: 84px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid #ffffff13;
 }
 
 .wordmark {
+  grid-column: 1;
+  grid-row: 1;
   display: inline-flex;
   align-items: center;
+  justify-self: start;
   gap: 10px;
   color: #f1f2ee;
   font-family: 'Manrope', sans-serif;
@@ -72,7 +77,7 @@ button { font: inherit; }
 }
 
 .wordmark-period { color: var(--accent); }
-.primary-nav { display: flex; align-items: center; gap: 34px; }
+.primary-nav { grid-column: 3; grid-row: 1; display: flex; align-items: center; justify-self: end; gap: 34px; }
 .primary-nav a {
   color: #a4a8a2;
   font-size: 0.82rem;
@@ -84,15 +89,18 @@ button { font: inherit; }
 .nav-contact span { margin-left: 5px; }
 .menu-toggle { display: none; }
 .theme-toggle {
+  grid-column: 2;
+  grid-row: 1;
   display: grid;
   width: 40px;
   height: 40px;
   flex-shrink: 0;
   place-items: center;
+  justify-self: center;
   border: 1px solid #ffffff29;
   border-radius: 50%;
   background: transparent;
-  color: var(--foreground);
+  color: var(--theme-toggle-color);
   cursor: pointer;
   transition: border-color 160ms ease, color 160ms ease, transform 160ms ease;
 }
@@ -156,6 +164,20 @@ button { font: inherit; }
   color: #929890;
   font-size: 0.64rem;
   line-height: 1.8;
+}
+
+.hero-kicker-typed::after {
+  display: inline-block;
+  height: 1em;
+  margin-left: 3px;
+  border-right: 1px solid currentColor;
+  content: '';
+  vertical-align: -0.15em;
+  animation: hero-kicker-caret 750ms steps(2, start) infinite;
+}
+
+@keyframes hero-kicker-caret {
+  to { visibility: hidden; }
 }
 
 .hero h1,
@@ -438,8 +460,8 @@ button { font: inherit; }
   height: 34px;
   place-items: center;
   border-radius: 4px;
-  background: #d92f36;
-  color: #fff;
+  background: #fff;
+  color: #d92f36;
   pointer-events: none;
 }
 .directory-eye svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
@@ -621,6 +643,48 @@ button { font: inherit; }
 
 @media (max-width: 900px) {
   .site-shell { width: min(100% - 56px, 760px); }
+  .site-header { min-height: 72px; }
+  .menu-toggle {
+    display: flex;
+    width: 42px;
+    height: 42px;
+    grid-column: 3;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    justify-self: end;
+    gap: 6px;
+    border: 1px solid #ffffff28;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--theme-toggle-color);
+    cursor: pointer;
+  }
+  .menu-toggle span { width: 17px; height: 1px; background: currentColor; transition: transform 160ms ease; }
+  .menu-toggle[aria-expanded='true'] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .menu-toggle[aria-expanded='true'] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .primary-nav {
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    display: none;
+    grid-column: auto;
+    grid-row: auto;
+    align-items: stretch;
+    justify-self: stretch;
+    gap: 0;
+    padding: 9px 16px 14px;
+    border: 1px solid #ffffff16;
+    border-top: 0;
+    background: #111414;
+    box-shadow: 0 18px 30px #0008;
+  }
+  :root[data-theme='light'] .primary-nav { background: #fff; }
+  .primary-nav.is-open { display: flex; flex-direction: column; }
+  .primary-nav a { padding: 14px 2px; border-bottom: 1px solid #ffffff12; font-size: 0.86rem; }
+  .primary-nav a:last-child { border: 0; }
   .hero { min-height: auto; grid-template-columns: 1fr; gap: 58px; padding: 76px 2% 82px; }
   .hero-visual { width: min(100%, 560px); justify-self: center; }
   .hero h1 { font-size: clamp(4.5rem, 12vw, 7rem); }

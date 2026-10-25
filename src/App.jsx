@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
+
+const heroIntro = 'Hi, I’m Ayodele Oluwatobiloba — a digital marketer and developer who loves the details.';
 
 const profile = {
   name: 'Ayodele Oluwatobiloba',
@@ -182,6 +184,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [editorCode, setEditorCode] = useState(starterCode);
+  const [typedIntro, setTypedIntro] = useState('');
   const bookingDetails = 'Choose a date and time that works for you. Add a Google Meet video conference before saving to send the invitation.';
   const calendarBookingUrl = `https://calendar.google.com/calendar/render?${new URLSearchParams({
     action: 'TEMPLATE',
@@ -189,6 +192,25 @@ function App() {
     details: bookingDetails,
     add: profile.email,
   })}`;
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setTypedIntro(heroIntro);
+      return undefined;
+    }
+
+    const characters = Array.from(heroIntro);
+    let index = 0;
+    const typingTimer = window.setInterval(() => {
+      index += 1;
+      setTypedIntro(characters.slice(0, index).join(''));
+
+      if (index >= characters.length) {
+        window.clearInterval(typingTimer);
+      }
+    }, 24);
+
+    return () => window.clearInterval(typingTimer);
+  }, []);
   const closeMenu = () => setMenuOpen(false);
   const editorLineCount = editorCode.split('\n').length;
   const toggleTheme = () => {
@@ -248,7 +270,9 @@ function App() {
         <section className="hero">
           <div className="hero-copy">
             <p className="availability"><span /> Available for new opportunities</p>
-            <p className="hero-kicker">Hi, I&apos;m {profile.name} — a digital marketer and developer who loves the details.</p>
+            <p className="hero-kicker" aria-label={heroIntro}>
+              <span className="hero-kicker-typed" aria-hidden="true">{typedIntro}</span>
+            </p>
             <h1>I build for<br />the <span>real world.</span></h1>
             <p className="hero-description">
               With over 7 years of experience in tech marketing,
