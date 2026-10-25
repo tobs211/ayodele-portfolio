@@ -206,7 +206,8 @@ button { font: inherit; }
   line-height: 1.85;
 }
 
-.hero-actions { display: flex; align-items: center; gap: 12px; margin-top: 29px; }
+.hero-actions { display: flex; align-items: center; gap: 10px; margin-top: 29px; }
+.hero-actions .button { min-height: 42px; gap: 10px; padding: 0 14px; font-size: 0.7rem; }
 .button {
   display: inline-flex;
   min-height: 48px;
@@ -753,8 +754,8 @@ button { font: inherit; }
   .hero-kicker { max-width: 280px; font-size: 0.55rem; }
   .hero h1 { font-size: clamp(3.7rem, 16vw, 5.4rem); }
   .hero-description { margin-top: 20px; font-size: 0.85rem; }
-  .hero-actions { align-items: stretch; flex-direction: column; }
-  .hero-actions .button { justify-content: space-between; }
+  .hero-actions { align-items: stretch; gap: 8px; }
+  .hero-actions .button { min-width: 0; flex: 1; justify-content: center; gap: 6px; padding: 0 8px; font-size: 0.64rem; }
   .hero-meta { gap: 12px 18px; font-size: 0.61rem; }
   .editor-content { min-height: 300px; gap: 13px; padding: 19px 13px 12px; }
   .editor-code-input { min-height: 250px; font-size: clamp(0.59rem, 2.85vw, 0.73rem); }
