@@ -172,9 +172,10 @@ function EyeIcon() {
   );
 }
 
-function TypewriterText({ text }) {
+function TypewriterText({ text, className = '' }) {
   const [isVisible, setIsVisible] = useState(false);
   const [typedText, setTypedText] = useState('');
+  const [isComplete, setIsComplete] = useState(false);
   const textRef = useRef(null);
 
   useEffect(() => {
@@ -205,6 +206,7 @@ function TypewriterText({ text }) {
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setTypedText(text);
+      setIsComplete(true);
       return undefined;
     }
 
@@ -216,6 +218,7 @@ function TypewriterText({ text }) {
 
       if (index >= characters.length) {
         window.clearInterval(typingTimer);
+        setIsComplete(true);
       }
     }, 24);
 
@@ -223,7 +226,12 @@ function TypewriterText({ text }) {
   }, [isVisible, text]);
 
   return (
-    <span ref={textRef} className="typewriter-text" role="text" aria-label={text}>
+    <span
+      ref={textRef}
+      className={`typewriter-text${className ? ` ${className}` : ''}${isVisible ? ' is-visible' : ''}${isComplete ? ' is-complete' : ''}`}
+      role="text"
+      aria-label={text}
+    >
       <span aria-hidden="true">{typedText}</span>
     </span>
   );
@@ -468,25 +476,25 @@ function App() {
             </a>
             <a className="service-directory-card" href="#product-design">
               <span className="directory-number">02 / DESIGN</span>
-              <strong className="service-title-product">Product design</strong>
+              <strong><TypewriterText text="Product design" className="service-title-product" /></strong>
               <span className="directory-note">UX · UI · Figma case studies</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#graphic-design">
               <span className="directory-number">03 / VISUALS</span>
-              <strong className="service-title-graphic">Graphic design</strong>
+              <strong><TypewriterText text="Graphic design" className="service-title-graphic" /></strong>
               <span className="directory-note">Branding · Campaigns · Print</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#frontend-development">
               <span className="directory-number">04 / DEVELOPMENT</span>
-              <strong className="service-title-development">Front-end development</strong>
+              <strong><TypewriterText text="Front-end development" className="service-title-development" /></strong>
               <span className="directory-note">GitHub · Websites · Web apps</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#video-graphics">
               <span className="directory-number">05 / VIDEO</span>
-              <strong className="service-title-video">Video &amp; motion graphics</strong>
+              <strong><TypewriterText text="Video & motion graphics" className="service-title-video" /></strong>
               <span className="directory-note">Video portfolio · Drive</span>
               <span className="directory-eye"><EyeIcon /></span>
             </a>

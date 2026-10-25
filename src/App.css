@@ -458,10 +458,15 @@ button { font: inherit; }
   letter-spacing: 0.08em;
 }
 .service-directory-card strong { margin-top: 16px; color: #edf0e9; font-family: 'Manrope', sans-serif; font-size: 1.18rem; letter-spacing: -0.04em; }
-.service-title-product { animation: service-title-rise 700ms cubic-bezier(.2,.75,.25,1) both; }
-.service-title-graphic { animation: service-title-slide 800ms cubic-bezier(.2,.75,.25,1) both; }
-.service-title-development { animation: service-title-reveal 900ms ease-out both; }
-.service-title-video { animation: service-title-pop 750ms cubic-bezier(.2,1.4,.4,1) both; }
+.typewriter-text { display: inline-block; }
+.typewriter-text.service-title-product.is-visible { animation: service-title-rise 700ms cubic-bezier(.2,.75,.25,1) both; }
+.typewriter-text.service-title-graphic.is-visible { animation: service-title-slide 800ms cubic-bezier(.2,.75,.25,1) both; }
+.typewriter-text.service-title-development.is-visible { animation: service-title-reveal 900ms ease-out both; }
+.typewriter-text.service-title-video.is-visible { animation: service-title-pop 750ms cubic-bezier(.2,1.4,.4,1) both; }
+.typewriter-text.service-title-product.is-complete,
+.typewriter-text.service-title-graphic.is-complete,
+.typewriter-text.service-title-development.is-complete,
+.typewriter-text.service-title-video.is-complete { animation: service-title-bounce 1.8s ease-in-out infinite; }
 @keyframes service-title-rise {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
@@ -477,6 +482,10 @@ button { font: inherit; }
 @keyframes service-title-pop {
   from { opacity: 0; transform: scale(.75) rotate(-4deg); }
   to { opacity: 1; transform: scale(1) rotate(0); }
+}
+@keyframes service-title-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }
 .directory-note { margin-top: 7px; color: #979e94; font-size: 0.7rem; }
 .directory-eye {
@@ -515,10 +524,10 @@ button { font: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .button-book-call { animation: none; }
   .typewriter-text::after { animation: none; }
-  .service-title-product,
-  .service-title-graphic,
-  .service-title-development,
-  .service-title-video,
+  .typewriter-text.service-title-product,
+  .typewriter-text.service-title-graphic,
+  .typewriter-text.service-title-development,
+  .typewriter-text.service-title-video,
   .directory-eye svg { animation: none; }
 }
 
