@@ -80,8 +80,8 @@ const designProjects = [
   {
     name: 'Product showcase study',
     detail: 'UX research · Figma prototype',
-    link: 'https://www.figma.com/proto/mHmKuLgvMjj3o9Cz6aQkz4/Untitled?node-id=1-3262&t=LH9Vgfg1cbQ1ttwU-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3262&show-proto-sidebar=1',
-    embed: 'https://embed.figma.com/proto/mHmKuLgvMjj3o9Cz6aQkz4/Untitled?node-id=1-3262&t=LH9Vgfg1cbQ1ttwU-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3262&show-proto-sidebar=1&embed-host=share',
+    link: 'https://www.figma.com/design/mHmKuLgvMjj3o9Cz6aQkz4/Untitled?node-id=1-1573',
+    embed: 'https://embed.figma.com/design/mHmKuLgvMjj3o9Cz6aQkz4/Untitled?node-id=1-1573&embed-host=share',
   },
   {
     name: 'Mobile app experience',
@@ -182,6 +182,13 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [theme, setTheme] = useState('dark');
   const [editorCode, setEditorCode] = useState(starterCode);
+  const bookingDetails = 'Choose a date and time that works for you. Add a Google Meet video conference before saving to send the invitation.';
+  const calendarBookingUrl = `https://calendar.google.com/calendar/render?${new URLSearchParams({
+    action: 'TEMPLATE',
+    text: `Book a call with ${profile.name}`,
+    details: bookingDetails,
+    add: profile.email,
+  })}`;
   const closeMenu = () => setMenuOpen(false);
   const editorLineCount = editorCode.split('\n').length;
   const toggleTheme = () => {
@@ -231,8 +238,8 @@ function App() {
           onClick={toggleTheme}
         >
           <svg aria-hidden="true" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M3.5 12h17M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" />
+            <path d="M9 18h6m-5 3h4m-6.2-6.2a7 7 0 1 1 8.4 0c-.9.7-1.2 1.3-1.2 2.2h-6c0-.9-.3-1.5-1.2-2.2Z" />
+            <path d="M12 2v2m8 8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 5l1.4 1.4" />
           </svg>
         </button>
       </header>
@@ -255,7 +262,7 @@ function App() {
               <a className="button button-primary" href="#work">
                 Explore my work <ArrowIcon />
               </a>
-              <a className="button button-red" href={`mailto:${profile.email}?subject=${encodeURIComponent('Book a call')}`}>
+              <a className="button button-red" href={calendarBookingUrl} target="_blank" rel="noreferrer">
                 Book a call
               </a>
             </div>
@@ -430,7 +437,7 @@ function App() {
             <div>
               <p className="section-label">01 / Strategy &amp; growth</p>
               <h2>Full-stack digital<br /><span>marketing.</span></h2>
-              <a className="button button-secondary detail-heading-action" href="https://docs.google.com/document/d/19yUn0YMktfRqSz5-Av1e8gt6h97uPhEJr6XAx-5PR8g/edit?usp=drivesdk" target="_blank" rel="noreferrer">
+              <a className="button button-red detail-heading-action" href="https://docs.google.com/document/d/19yUn0YMktfRqSz5-Av1e8gt6h97uPhEJr6XAx-5PR8g/edit?usp=drivesdk" target="_blank" rel="noreferrer">
                 Click here
               </a>
             </div>
