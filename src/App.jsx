@@ -33,7 +33,7 @@ const projects = [
       'A fast, accessible storefront for an independent outdoor gear brand.',
     stack: ['Next.js', 'Tailwind CSS', 'Shopify'],
     className: 'fieldnotes',
-    link: '',
+    link: 'https://docs.google.com/document/d/1et4EHVuO5HAX745JMJwA8vLbNoJyCdFg1ilMHJAljh8/edit?usp=sharing',
   },
   {
     number: '03',
@@ -62,12 +62,12 @@ const marketingServices = [
   {
     name: 'Influencer marketing',
     description: 'Creator partnerships, campaign planning, and performance tracking.',
-    link: '',
+    link: 'https://docs.google.com/document/d/1ao45IVzvEY2v0_13IhQ2uPIWnYgaoQB3EJfEhQPE0vY/edit?usp=sharing',
   },
   {
     name: 'Social media marketing',
     description: 'Platform strategy, content planning, and community growth.',
-    link: '',
+    link: 'https://docs.google.com/document/d/1nlrMQgGLtfTcYDriegipMs5MGlb1NSTXibIJMECY4dQ/edit?usp=drivesdk',
   },
   {
     name: 'Email marketing',
@@ -78,10 +78,10 @@ const marketingServices = [
 
 const designProjects = [
   {
-    name: 'Product design case study',
+    name: 'Product showcase study',
     detail: 'UX research · Figma prototype',
-    link: 'https://www.figma.com/proto/HURSVYEtnFaj1pSLsw8YCy/STYKE?node-id=476-5&t=r8bsdqh7necBcG79-0&scaling=min-zoom&content-scaling=fixed&page-id=2%3A242&starting-point-node-id=497%3A390',
-    embed: 'https://embed.figma.com/proto/HURSVYEtnFaj1pSLsw8YCy/STYKE?node-id=476-5&t=r8bsdqh7necBcG79-0&scaling=min-zoom&content-scaling=fixed&page-id=2%3A242&starting-point-node-id=497%3A390&embed-host=share',
+    link: 'https://www.figma.com/proto/mHmKuLgvMjj3o9Cz6aQkz4/Untitled?node-id=1-3262&t=LH9Vgfg1cbQ1ttwU-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3262&show-proto-sidebar=1',
+    embed: 'https://embed.figma.com/proto/mHmKuLgvMjj3o9Cz6aQkz4/Untitled?node-id=1-3262&t=LH9Vgfg1cbQ1ttwU-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3262&show-proto-sidebar=1&embed-host=share',
   },
   {
     name: 'Mobile app experience',
@@ -171,9 +171,15 @@ function LinkedInIcon() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [theme, setTheme] = useState('dark');
   const [editorCode, setEditorCode] = useState(starterCode);
   const closeMenu = () => setMenuOpen(false);
   const editorLineCount = editorCode.split('\n').length;
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    setTheme(nextTheme);
+  };
 
   return (
     <div className="site-shell">
@@ -208,6 +214,18 @@ function App() {
             Let&apos;s talk <ArrowIcon diagonal />
           </a>
         </nav>
+        <button
+          className="theme-toggle"
+          type="button"
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          onClick={toggleTheme}
+        >
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M3.5 12h17M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18" />
+          </svg>
+        </button>
       </header>
 
       <main id="home">
@@ -228,7 +246,9 @@ function App() {
               <a className="button button-primary" href="#work">
                 Explore my work <ArrowIcon />
               </a>
-              <a className="button button-secondary" href="#contact">Get in touch</a>
+              <a className="button button-secondary" href={`mailto:${profile.email}?subject=${encodeURIComponent('Book a call')}`}>
+                Book a call
+              </a>
             </div>
             <div className="hero-meta">
               <span><i className="meta-icon">⌘</i> Front-end &amp; full-stack</span>
@@ -288,7 +308,9 @@ function App() {
                 <a
                   className={`project-preview ${project.className}`}
                   href={project.link || '#contact'}
-                  aria-label={`Ask me about ${project.name}`}
+                  target={project.link ? '_blank' : undefined}
+                  rel={project.link ? 'noreferrer' : undefined}
+                  aria-label={`View ${project.name} project`}
                 >
                   <div className="preview-top"><span>{project.number} / SELECTED PROJECT</span><ArrowIcon diagonal /></div>
                   {project.className === 'launchpad' && (
@@ -329,9 +351,15 @@ function App() {
                   <p>{project.description}</p>
                   <div className="project-bottom">
                     <div className="tag-list">{project.stack.map((item) => <span key={item}>{item}</span>)}</div>
-                    <a className="project-link" href={project.link || '#contact'} aria-label={`Discuss ${project.name}`}>
-                      Discuss project <ArrowIcon diagonal />
-                    </a>
+                    {project.className === 'fieldnotes' ? (
+                      <a className="button button-secondary project-note-button" href={project.link} target="_blank" rel="noreferrer">
+                        Add a note
+                      </a>
+                    ) : (
+                      <a className="project-link" href={project.link || '#contact'} aria-label={`Discuss ${project.name}`}>
+                        Discuss project <ArrowIcon diagonal />
+                      </a>
+                    )}
                   </div>
                 </div>
               </article>
@@ -386,7 +414,13 @@ function App() {
 
         <section className="portfolio-detail section-wrap" id="digital-marketing">
           <div className="detail-heading">
-            <div><p className="section-label">01 / Strategy &amp; growth</p><h2>Full-stack digital<br /><span>marketing.</span></h2></div>
+            <div>
+              <p className="section-label">01 / Strategy &amp; growth</p>
+              <h2>Full-stack digital<br /><span>marketing.</span></h2>
+              <a className="button button-secondary detail-heading-action" href="https://docs.google.com/document/d/19yUn0YMktfRqSz5-Av1e8gt6h97uPhEJr6XAx-5PR8g/edit?usp=drivesdk" target="_blank" rel="noreferrer">
+                Click here
+              </a>
+            </div>
             <p>From creator collaborations to campaigns that bring your audience back, explore the marketing services I offer.</p>
           </div>
           <div className="detail-card-grid">
@@ -395,9 +429,11 @@ function App() {
                 <span className="detail-card-number">0{index + 1}</span>
                 <h3>{service.name}</h3>
                 <p>{service.description}</p>
-                <PortfolioLink className="detail-card-link" href={service.link}>
-                  {service.link ? 'Explore service' : 'Add campaign link'}
-                </PortfolioLink>
+                {service.link && (
+                  <a className="button button-secondary detail-card-action" href={service.link} target="_blank" rel="noreferrer">
+                    Click here
+                  </a>
+                )}
               </article>
             ))}
           </div>
@@ -459,7 +495,7 @@ function App() {
                 <article className="repo-row" key={project.name}>
                   <span className="repo-icon" aria-hidden="true">&lt;/&gt;</span>
                   <div><h4>{project.name}</h4><p>{project.detail}</p></div>
-                  <PortfolioLink className="repo-link" href={project.link}>{project.link ? 'View GitHub' : 'Add Git link'}</PortfolioLink>
+                  <a className="button button-secondary repo-action" href={project.link} target="_blank" rel="noreferrer">View GitHub</a>
                 </article>
               ))}
             </div>
@@ -469,7 +505,7 @@ function App() {
                 <article className="website-row" key={project.name}>
                   <span className="website-preview" aria-hidden="true"><i /><i /><i /></span>
                   <div><h4>{project.name}</h4><p>{project.detail}</p></div>
-                  <PortfolioLink className="repo-link" href={project.link}>{project.link ? 'Visit site' : 'Add site link'}</PortfolioLink>
+                  <a className="button button-secondary repo-action" href={project.link} target="_blank" rel="noreferrer">Visit site</a>
                 </article>
               ))}
             </div>
