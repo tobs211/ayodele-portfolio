@@ -161,6 +161,15 @@ function ArrowIcon({ diagonal = false }) {
   return <span aria-hidden="true">{diagonal ? '↗' : '→'}</span>;
 }
 
+function EyeIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24">
+      <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" />
+      <circle cx="12" cy="12" r="2.5" />
+    </svg>
+  );
+}
+
 function LinkedInIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -246,7 +255,7 @@ function App() {
               <a className="button button-primary" href="#work">
                 Explore my work <ArrowIcon />
               </a>
-              <a className="button button-secondary" href={`mailto:${profile.email}?subject=${encodeURIComponent('Book a call')}`}>
+              <a className="button button-red" href={`mailto:${profile.email}?subject=${encodeURIComponent('Book a call')}`}>
                 Book a call
               </a>
             </div>
@@ -347,15 +356,19 @@ function App() {
                   <span className="preview-caption">{project.type}</span>
                 </a>
                 <div className="project-details">
-                  <div className="project-title-row"><span className="project-number">{project.number}</span><h3>{project.name}</h3></div>
+                  <div className="project-title-row">
+                    <span className="project-number">{project.number}</span>
+                    <h3>{project.name}</h3>
+                    {project.className === 'fieldnotes' && (
+                      <a className="button button-red project-note-button" href={project.link} target="_blank" rel="noreferrer">
+                        Add a note
+                      </a>
+                    )}
+                  </div>
                   <p>{project.description}</p>
                   <div className="project-bottom">
                     <div className="tag-list">{project.stack.map((item) => <span key={item}>{item}</span>)}</div>
-                    {project.className === 'fieldnotes' ? (
-                      <a className="button button-secondary project-note-button" href={project.link} target="_blank" rel="noreferrer">
-                        Add a note
-                      </a>
-                    ) : (
+                    {project.className !== 'fieldnotes' && (
                       <a className="project-link" href={project.link || '#contact'} aria-label={`Discuss ${project.name}`}>
                         Discuss project <ArrowIcon diagonal />
                       </a>
@@ -383,31 +396,31 @@ function App() {
               <span className="directory-number">01 / MARKETING</span>
               <strong>Full-stack digital marketing</strong>
               <span className="directory-note">Influencer · Social media · Email</span>
-              <span className="directory-arrow" aria-hidden="true">↘</span>
+              <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#product-design">
               <span className="directory-number">02 / DESIGN</span>
               <strong>Product design</strong>
               <span className="directory-note">UX · UI · Figma case studies</span>
-              <span className="directory-arrow" aria-hidden="true">↘</span>
+              <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#graphic-design">
               <span className="directory-number">03 / VISUALS</span>
               <strong>Graphic design</strong>
               <span className="directory-note">Branding · Campaigns · Print</span>
-              <span className="directory-arrow" aria-hidden="true">↘</span>
+              <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#frontend-development">
               <span className="directory-number">04 / DEVELOPMENT</span>
               <strong>Front-end development</strong>
               <span className="directory-note">GitHub · Websites · Web apps</span>
-              <span className="directory-arrow" aria-hidden="true">↘</span>
+              <span className="directory-eye"><EyeIcon /></span>
             </a>
             <a className="service-directory-card" href="#video-graphics">
               <span className="directory-number">05 / VIDEO</span>
               <strong>Video &amp; motion graphics</strong>
               <span className="directory-note">Video portfolio · Drive</span>
-              <span className="directory-arrow" aria-hidden="true">↘</span>
+              <span className="directory-eye"><EyeIcon /></span>
             </a>
           </div>
         </section>
